@@ -7,14 +7,13 @@ export const apiService = {
         const response = await fetch(`${API_URL}/chat`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ conversations, message: userMessage })  // Changed 'userMessage' to 'message'
+            body: JSON.stringify({
+                conversations,
+                message: userMessage  // Changed from 'userMessage: userMessage' to 'message: userMessage'
+            })
         });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
         const data = await response.json();
-        return data;  // This returns the whole { success: true, responses: {...} } object
+        return data;
     }
 };

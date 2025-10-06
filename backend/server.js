@@ -69,7 +69,20 @@ Keep responses concise (2-4 sentences) but provocative.`
 app.post('/api/chat', async (req, res) => {
     try {
         const { conversations, message } = req.body;
+        // ADD THIS LOGGING
+        console.log('Received request:', {
+            message,
+            hasConversations: !!conversations,
+            conversationKeys: Object.keys(conversations || {})
+        });
 
+        // Check if message exists
+        if (!message || !message.trim()) {
+            return res.status(400).json({
+                success: false,
+                error: 'Message is required'
+            });
+        }
         // Call all three in parallel
         const [supporterResponse, analystResponse, challengerResponse] = await Promise.allSettled([
             // Supporter - GPT-4o
