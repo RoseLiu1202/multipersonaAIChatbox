@@ -14,7 +14,13 @@ const anthropic = new Anthropic({
     apiKey: process.env.ANTHROPIC_API_KEY
 });
 
-app.use(cors());
+const corsOptions = {
+    origin: process.env.NODE_ENV === 'production'
+        ? process.env.FRONTEND_URL || '*'
+        : ['http://localhost:5173', 'http://localhost:3000']
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 const SYSTEM_PROMPTS = {
